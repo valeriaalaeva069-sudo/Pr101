@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Счётчик</string>
+    <string name="title">Счётчик</string>
+    <string name="plus">Плюс</string>
+    <string name="minus">Минус</string>
+    <string name="reset">Сбросить</string>
+</resources>
