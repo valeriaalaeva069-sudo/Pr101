@@ -75,17 +75,17 @@ jobs:
 
     # 9. Fastlane: отправляем сборку тестировщикам (только при пуше в main)
     - name: Set up Ruby
-      if: github.event_name == 'push'
+      if: false # TODO(Часть 2): включим, когда настроим Firebase
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.3'
 
     - name: Install Fastlane
-      if: github.event_name == 'push'
+     if: false
       run: bundle install
 
     - name: Run Fastlane Distribute
-      if: github.event_name == 'push'
+     if: false
       env:
         FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       run: bundle exec fastlane distribute
