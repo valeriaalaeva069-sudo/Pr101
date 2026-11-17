@@ -3,6 +3,9 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    // === ПР 11 — Firebase ===
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 // Данные подписи: локально из keystore.properties, на сервере (CI) из переменных окружения
@@ -15,7 +18,7 @@ val storePasswordValue: String? = keystoreProps.getProperty("storePassword") ?: 
 val keyAliasValue: String? = keystoreProps.getProperty("keyAlias") ?: System.getenv("KEY_ALIAS")
 val keyPasswordValue: String? = keystoreProps.getProperty("keyPassword") ?: System.getenv("KEY_PASSWORD")
 val canSignRelease = keystoreFile.exists() &&
-    storePasswordValue != null && keyAliasValue != null && keyPasswordValue != null
+        storePasswordValue != null && keyAliasValue != null && keyPasswordValue != null
 
 android {
     namespace = "com.example.pr10"
@@ -49,7 +52,8 @@ android {
             applicationIdSuffix = ".debug"
         }
         release {
-            // В AGP 9 вместо minifyEnabled
+            // === ПР 11: включаем R8 обфускацию/минификацию ===
+            // (раньше было enable = false)
             optimization {
                 enable = true
             }
@@ -64,6 +68,8 @@ android {
     }
     buildFeatures {
         compose = true
+        // === ПР 11: BuildConfig для Remote Config ===
+        buildConfig = true
     }
 }
 
@@ -76,6 +82,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // === ПР 11 — Firebase ===
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.config)        // Remote Config (п. 3.2)
+    implementation(libs.firebase.crashlytics)   // Crashlytics (п. 3.1 — alert 50%)
+
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

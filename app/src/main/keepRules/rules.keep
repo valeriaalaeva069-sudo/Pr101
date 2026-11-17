@@ -4,11 +4,31 @@
 # For more details, see
 #   https://d.android.com/r/tools/r8/keep-rules
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-# Вырезаем логи из релиза: Log.v, Log.d, Log.i исчезают на этапе сборки
+# === PR 11 — правила для Firebase ===
+
+# Firebase Remote Config: сохранить публичный API
+-keep class com.google.firebase.remoteconfig.** { *; }
+-keep class com.google.firebase.remoteconfig.FirebaseRemoteConfig { *; }
+-keep class com.google.firebase.remoteconfig.FirebaseRemoteConfigValue { *; }
+
+# Crashlytics: сохранить stack traces (иначе не увидим краши)
+-keepattributes SourceFile, LineNumberTable
+-keepattributes Signature
+-keepattributes Exceptions
+-keep public class * extends java.lang.Throwable
+-keep class com.google.firebase.crashlytics.** { *; }
+
+# Firebase common
+-keep class com.google.firebase.** { *; }
+-keep class com.google.android.gms.** { *; }
+-keep class com.google.android.gms.common.** { *; }
+
+# Compose (на всякий случай)
+-dontwarn androidx.compose.**
+
+# === PR 11 — вырезаем отладочные логи в release ===
+# R8 удалит Log.v, Log.d, Log.i (verbose/debug/info) — они в production не нужны.
+# Log.e, Log.w оставляем: Crashlytics их читает.
 -assumenosideeffects class android.util.Log {
     public static int v(...);
     public static int d(...);
