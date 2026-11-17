@@ -25,10 +25,10 @@ android {
 
     defaultConfig {
         applicationId = "com.example.pr10"
-        minSdk = 26
+        minSdk = 24
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 42
+        versionName = "2.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
