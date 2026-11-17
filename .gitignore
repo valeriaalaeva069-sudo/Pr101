@@ -20,3 +20,6 @@ local.properties
 keystore.properties
 *.base64
 service-account*.json
+
+# === ПР 11 — Firebase config ===
+app/google-services.json
