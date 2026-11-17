@@ -21,7 +21,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # 2. Устанавливаем JDK (Java Development Kit)
+    # 2. Устанавливаем JDK
     - name: Set up JDK 25
       uses: actions/setup-java@v4
       with:
@@ -52,7 +52,7 @@ jobs:
     - name: Run unit tests
       run: ./gradlew testDebugUnitTest --no-daemon
 
-    # 6. Собираем релизную версию (APK для Firebase)
+    # 6. Собираем релизную версию (APK)
     - name: Assemble Release APK
       run: ./gradlew assembleRelease --no-daemon
 
@@ -73,7 +73,7 @@ jobs:
         name: app-release-aab
         path: app/build/outputs/bundle/release/app-release.aab
 
-    # 9. Fastlane: отправляем сборку тестировщикам (только при пуше в main)
+    # 9. Fastlane: отправляем сборку тестировщикам (отключено до Части 2 — нужен ключ Firebase)
     - name: Set up Ruby
       if: false # TODO(Часть 2): включим, когда настроим Firebase
       uses: ruby/setup-ruby@v1
@@ -81,11 +81,11 @@ jobs:
         ruby-version: '3.3'
 
     - name: Install Fastlane
-     if: false
+      if: false # TODO(Часть 2): включим, когда настроим Firebase
       run: bundle install
 
     - name: Run Fastlane Distribute
-     if: false
+      if: false # TODO(Часть 2): включим, когда настроим Firebase
       env:
         FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       run: bundle exec fastlane distribute
