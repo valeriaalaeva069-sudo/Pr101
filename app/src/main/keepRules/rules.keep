@@ -8,5 +8,9 @@
 # and specify the fully qualified class name to the JavaScript interface
 # class:
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Вырезаем логи из релиза: Log.v, Log.d, Log.i исчезают на этапе сборки
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int d(...);
+    public static int i(...);
+}

@@ -51,7 +51,7 @@ android {
         release {
             // В AGP 9 вместо minifyEnabled
             optimization {
-                enable = false
+                enable = true
             }
             if (canSignRelease) {
                 signingConfig = signingConfigs.getByName("release")
